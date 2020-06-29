@@ -23,10 +23,13 @@ The following instructions deploy Mattermost in a production configuration using
 
 If you want to install Enterprise Edition, you can skip this section.
 
-To install the team edition, uncomment out these lines in docker-compose.yaml file:
+To install the team edition, change `build: app` to `build:` and uncomment out these lines in `app:` services block to make it look like below in docker-compose.yaml file:
 ```yaml
-args:
-  - edition=team
+app:
+  build:
+    context: app
+    args:
+      - edition=team
 ```
 The `app` Dockerfile will read the `edition` build argument to install Team (`edition = 'team'`) or Enterprise (`edition != team`) edition.
 
@@ -104,6 +107,14 @@ If you plan to upload large files to your Mattermost instance, Nginx will need t
 Put your SSL certificate as `./volumes/web/cert/cert.pem` and the private key that has
 no password as `./volumes/web/cert/key-no-password.pem`. If you don't have
 them you may generate a self-signed SSL certificate.
+
+#### Configure SSO with GitLab
+If you are looking for SSO with GitLab and you use self signed certificate you have to add the PKI chain of your authority in app because Alpine doesn't know him. This is required to avoid **Token request failed: certificate signed by unknown authority**
+
+For that uncomment this line and replace with the correct path of your PKI chain:
+```
+# - <path_to_your_gitlab_pki>/pki_chain.pem:/etc/ssl/certs/pki_chain.pem:ro
+```
 
 ### Starting/Stopping Docker
 
