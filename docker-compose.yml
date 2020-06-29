@@ -4,7 +4,7 @@ services:
 
   db:
     build: db
-    image: registry.letstalk.nl/mattermost-db
+    image: registry.letstalk.nl/mattermost-db:5.24.2
     read_only: true
     restart: unless-stopped
     volumes:
@@ -28,7 +28,7 @@ services:
       #   - edition=team
       #   - PUID=1000
       #   - PGID=1000
-    image: registry.letstalk.nl/mattermost-app
+    image: registry.letstalk.nl/mattermost-app:5.24.2
     restart: unless-stopped
     volumes:
       - ./volumes/app/mattermost/config:/mattermost/config:rw
@@ -55,7 +55,7 @@ services:
 
   web:
     build: web
-    image: registry.letstalk.nl/mattermost-web
+    image: registry.letstalk.nl/mattermost-web:5.24.2
     ports:
       - "80:80"
       - "443:443"
